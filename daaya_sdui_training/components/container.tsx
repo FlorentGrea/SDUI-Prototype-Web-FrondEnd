@@ -1,6 +1,8 @@
-export default function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
+
+export default function Container({ children, ...props }: ContainerProps) {
     return (
-        <div className={`${className}`}>
+        <div {...props} className={`${props.className || ''}`}>
             {children}
         </div>
     )
