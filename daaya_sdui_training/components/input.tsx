@@ -1,5 +1,5 @@
-export default function Input({className}: {className?: string}) {
+export default function Input({...props}: React.InputHTMLAttributes<HTMLInputElement>) {
     return (
-        <input type="text" className={className} />
+        <input {...props} />
     )
 }
