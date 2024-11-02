@@ -19,7 +19,6 @@ async function fetchSuggestions(searchText: string, sessionToken: string) {
     url.searchParams.append("limit", "5");
     url.searchParams.append("session_token", sessionToken);
     url.searchParams.append("access_token", process.env.NEXT_PUBLIC_MAPBOX_API_KEY ?? "");
-    console.log('fetching suggestions')
 
     const response = await fetch(url);
     if (!response.ok) {
