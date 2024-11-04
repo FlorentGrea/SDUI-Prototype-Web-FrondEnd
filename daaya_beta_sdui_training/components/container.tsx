@@ -1,9 +1,11 @@
+import { forwardRef } from 'react';
+
 type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
 
-export default function Container({ children, ...props }: ContainerProps) {
+export default forwardRef<HTMLDivElement, ContainerProps>(function Container({ children, ...props }, ref) {
     return (
-        <div {...props} className={`${props.className || ''}`}>
+        <div ref={ref} {...props} className={`${props.className || ''}`}>
             {children}
         </div>
-    )
-}
+    );
+});

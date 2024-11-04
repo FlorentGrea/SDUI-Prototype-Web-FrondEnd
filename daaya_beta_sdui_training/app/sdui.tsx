@@ -12,7 +12,8 @@ import MapPopup from "@/components/map/mapPopup";
 import MapMarker from "@/components/map/mapMarker";
 import Image from 'next/image';
 import * as Icons from "@/components/icons";
-import MapMenu from '@/components/mapMenu';
+import MapMenu from '@/components/map/mapMenu/mapMenu';
+import PositionButton from '@/components/map/positionButton';
 
 const IconComponents = Icons;
 
@@ -24,8 +25,9 @@ export default function Sdui({mapPoints}: SduiProps) {
 
     return(
         <main className="w-full h-screen">
-            <Map mapPoints={mapPoints}>
+            <Map>
                 <MapMenu />
+                <PositionButton />
                 { mapPoints.map((point: MapPoint) => {
                     const imageSrc = point.images[0] ? process.env.NEXT_PUBLIC_DB_ADDR + 'api/files/' + point.collectionId + '/' + point.id + '/' + point.images[0] : ''
 

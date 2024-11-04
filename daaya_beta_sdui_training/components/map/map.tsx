@@ -4,21 +4,19 @@ import { useState, createContext, useContext } from 'react';
 import ReactMapGl, { ViewStateChangeEvent } from 'react-map-gl';
 import React from 'react';
 
-interface MapPoint {
-    id: number;
-    longitude: number;
-    latitude: number;
-    type: string;
-    images: string[];
-    collectionId: string;
-    title: string;
-    location: string;
-    date: string;
-}
-
 interface MapContextType {
   selectedId: number;
   setSelectedId: (id: number) => void;
+  viewState: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+  setViewState: (viewState: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  }) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);
@@ -31,7 +29,7 @@ export function useMapContext() {
   return context;
 }
 
-export default function Map({ children }: { mapPoints: MapPoint[], children?: React.ReactNode }) {
+export default function Map({ children }: { children?: React.ReactNode }) {
     const [viewState, setViewState] = useState({
         latitude: 46.2276,
         longitude: 2.2137,
@@ -39,8 +37,31 @@ export default function Map({ children }: { mapPoints: MapPoint[], children?: Re
     });
     const [selectedId, setSelectedId] = useState(0);
 
+    React.useEffect(() => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setViewState(prev => ({
+                        ...prev,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        zoom: 6
+                    }));
+                },
+                (error) => {
+                    console.log("Error getting location:", error);
+                }
+            );
+        }
+    }, []);
+
     return (
-        <MapContext.Provider value={{ selectedId, setSelectedId }}>
+        <MapContext.Provider value={{ 
+            selectedId, 
+            setSelectedId,
+            viewState,
+            setViewState
+        }}>
             <ReactMapGl
                 mapStyle={'mapbox://styles/canardwc/clyyn8d2q00cl01r23wk58eqb'}
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
