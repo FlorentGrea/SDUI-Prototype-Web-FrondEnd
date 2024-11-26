@@ -14,6 +14,7 @@ import Image from 'next/image';
 import * as Icons from "@/components/icons";
 import MapMenu from '@/components/map/mapMenu/mapMenu';
 import PositionButton from '@/components/map/positionButton';
+//import App from '@/components/test/App'
 
 const IconComponents = Icons;
 
@@ -22,6 +23,9 @@ interface SduiProps {
 }
 
 export default function Sdui({mapPoints}: SduiProps) {
+    /*return (
+        <App />
+    )*/
 
     return(
         <main className="w-full h-screen">

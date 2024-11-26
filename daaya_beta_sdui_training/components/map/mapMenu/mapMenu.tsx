@@ -6,6 +6,7 @@ import * as Icons from "../../icons";
 import { useMapContext } from '../map';
 import { useMap } from "react-map-gl";
 import PriceFilter from "./priceFilter";
+import LanguageFilter from "./languageFilter";
 
 type Suggestion = {
     mapbox_id: string;
@@ -285,6 +286,9 @@ export default function MapMenu() {
                                 <h2 className="text-lg font-bold h-[20px] flex items-center">Langue</h2>
                                 {languageFilter ? <IconComponents.UpArrowIcon className="w-[20px] h-[20px]" /> : <IconComponents.DownArrowIcon className="w-[20px] h-[20px]" />}
                             </Button>
+                            {languageFilter && (
+                                <LanguageFilter />
+                            )}
                         </Container>
                     </Container>
                     <Container  className="w-full h-fit p-1 pt-2 flex flex-row justify-evenly">

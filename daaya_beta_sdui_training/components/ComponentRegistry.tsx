@@ -1,0 +1,35 @@
+import ContainerTest from './test/containerTest';
+import SduiCall from './sduiCall';
+import * as Icons from './icons';
+import Map from './map/map';
+export const MicroComponents = {
+    Map: Map,
+    Container: ContainerTest,
+    SduiCall: SduiCall,
+    ListIcon: Icons.ListIcon,
+    ChatIcon: Icons.ChatIcon,
+    MapIcon: Icons.MapIcon,
+    LocateIcon: Icons.LocateIcon,
+    XIcon: Icons.XIcon,
+    HouseIcon: Icons.HouseIcon,
+    MeetIcon: Icons.MeetIcon,
+    VanIcon: Icons.VanIcon,
+    PlaneIcon: Icons.PlaneIcon,
+    PlusIcon: Icons.PlusIcon,
+    BoatIcon: Icons.BoatIcon,
+    BicycleIcon: Icons.BicycleIcon,
+    CarIcon: Icons.CarIcon,
+    UploadIcon: Icons.UploadIcon,
+    WarningIcon: Icons.WarningIcon,
+    BedIcon: Icons.BedIcon,
+    LocationIcon: Icons.LocationIcon,
+    CalendarIcon: Icons.CalendarIcon,
+    TwoPeopleIcon: Icons.TwoPeopleIcon,
+    SearchIcon: Icons.SearchIcon,
+    FilterIcon: Icons.FilterIcon,
+    UpArrowIcon: Icons.UpArrowIcon,
+    RightArrowIcon: Icons.RightArrowIcon,
+    DownArrowIcon: Icons.DownArrowIcon,
+    LeftArrowIcon: Icons.LeftArrowIcon,
+    PositionIcon: Icons.PositionIcon,
+}

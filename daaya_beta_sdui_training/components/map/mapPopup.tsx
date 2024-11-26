@@ -1,13 +1,19 @@
 'use client'
 
 import { Popup } from "react-map-gl";
-import { useMapContext } from './map';
-import { MapPoint } from "@/types/map";
+import { useContainerContext } from "../test/contextsGestion";
 
-export default function MapPopup({ children, point }: { children: React.ReactNode, point: MapPoint }) {
-    const { selectedId, setSelectedId } = useMapContext();
+interface MapPopupProps {
+    children: React.ReactNode;
+    longitude: number;
+    latitude: number;
+    id: number;
+}
 
-    if (selectedId !== point.id) return null;
+export default function MapPopup({ children, longitude, latitude, id }: MapPopupProps) {
+    const selectedId = useContainerContext('SelectedId');
+
+    if (selectedId?.value?.id !== id) return null;
 
     return (
         <Popup
@@ -16,10 +22,10 @@ export default function MapPopup({ children, point }: { children: React.ReactNod
             closeOnMove={true}
             offset={20}
             onClose={() => {
-                setSelectedId(0);
+                selectedId.setValue({id: 0});
             }}
-            longitude={point.longitude}
-            latitude={point.latitude}
+            longitude={longitude}
+            latitude={latitude}
             maxWidth='fit'
         >
             {children}

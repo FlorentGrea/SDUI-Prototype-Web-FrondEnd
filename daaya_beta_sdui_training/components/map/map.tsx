@@ -1,47 +1,22 @@
 'use client'
 
-import { useState, createContext, useContext } from 'react';
 import ReactMapGl, { ViewStateChangeEvent } from 'react-map-gl';
-import React from 'react';
-
-interface MapContextType {
-  selectedId: number;
-  setSelectedId: (id: number) => void;
-  viewState: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
-  setViewState: (viewState: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  }) => void;
-}
-
-const MapContext = createContext<MapContextType | undefined>(undefined);
-
-export function useMapContext() {
-  const context = useContext(MapContext);
-  if (context === undefined) {
-    throw new Error('useMapContext must be used within a Map component');
-  }
-  return context;
-}
+import { useContainerContext } from '../test/contextsGestion';
+import { useEffect, useRef } from 'react';
 
 export default function Map({ children }: { children?: React.ReactNode }) {
-    const [viewState, setViewState] = useState({
-        latitude: 46.2276,
-        longitude: 2.2137,
-        zoom: 4
-    });
-    const [selectedId, setSelectedId] = useState(0);
+    const viewStateContext = useContainerContext('ViewState');
+    const viewStateRef = useRef(viewStateContext);
 
-    React.useEffect(() => {
+    useEffect(() => {
+        viewStateRef.current = viewStateContext;
+    }, [viewStateContext]);
+
+    useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    setViewState(prev => ({
+                    viewStateRef.current?.setValue(prev => ({
                         ...prev,
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -56,21 +31,19 @@ export default function Map({ children }: { children?: React.ReactNode }) {
     }, []);
 
     return (
-        <MapContext.Provider value={{ 
-            selectedId, 
-            setSelectedId,
-            viewState,
-            setViewState
-        }}>
             <ReactMapGl
                 mapStyle={'mapbox://styles/canardwc/clyyn8d2q00cl01r23wk58eqb'}
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
                 style={{width: '100%', height: '100%', position: 'absolute', top: 0, left: 0}}
-                {...viewState}
-                onMove={(event: ViewStateChangeEvent) => setViewState(event.viewState)}
+                {...viewStateRef.current?.value}
+                projection={{ name: 'globe' }}
+                onMove={(event: ViewStateChangeEvent) => viewStateRef.current?.setValue({
+                    latitude: event.viewState.latitude,
+                    longitude: event.viewState.longitude,
+                    zoom: event.viewState.zoom
+                })}
             >
                 {children}
             </ReactMapGl>
-        </MapContext.Provider>
     )
 }
