@@ -1,4 +1,4 @@
-import Container from "@/components/container";
+import Container from "@/components/Legacy/container";
 import { useState } from 'react';
 
 interface PriceInputProps {

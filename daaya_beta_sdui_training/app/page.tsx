@@ -1,11 +1,11 @@
-import PocketBase from 'pocketbase';
-import { MapPoint } from "@/types/map";
-import Sdui from "./sdui";
-import SduiCall from '@/components/sduiCall';
+//import PocketBase from 'pocketbase';
+//import { MapPoint } from "@/types/map";
+//import Sdui from "./sdui";
+import SduiCall from '@/components/SduiCall/sduiCall';
 
 export default async function Home() {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_DB_ADDR);
-  const mapPoints = await pb.collection('MapPoints').getFullList({ next: { tags: ['mapPoints'] } })
+  //const pb = new PocketBase(process.env.NEXT_PUBLIC_DB_ADDR);
+  //const mapPoints = await pb.collection('MapPoints').getFullList({ next: { tags: ['mapPoints'] } })
 
   return (
     <SduiCall macroComponentName="MainPage" />

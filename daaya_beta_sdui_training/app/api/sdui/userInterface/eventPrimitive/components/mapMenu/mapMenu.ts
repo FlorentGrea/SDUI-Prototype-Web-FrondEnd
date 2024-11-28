@@ -1,136 +1,58 @@
-import { useState, useCallback, useRef, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-import Container from "../../Legacy/container";
-import Button from "../../button";
-import * as Icons from "../../icons";
-import { useMapContext } from '../../map';
-import { useMap } from "react-map-gl";
-import PriceFilter from "./priceFilter";
-import LanguageFilter from "./languageFilter";
+export default function mapMenu() {
 
-type Suggestion = {
-    mapbox_id: string;
-    name: string;
-    full_address: string;
-    coordinates?: [number, number];
-};
-
-const IconComponents = Icons
-
-async function fetchSuggestions(searchText: string, sessionToken: string, latitude: number, longitude: number) {
-    const url = new URL("https://api.mapbox.com/search/searchbox/v1/suggest");
-    url.searchParams.append("q", searchText);
-    url.searchParams.append("language", "fr");
-    url.searchParams.append("limit", "5");
-    url.searchParams.append("proximity", `${longitude},${latitude}`);
-    url.searchParams.append("session_token", sessionToken);
-    url.searchParams.append("access_token", process.env.NEXT_PUBLIC_MAPBOX_API_KEY ?? "");
-
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-}
-
-export default function MapMenu() {
-    const [sessionToken] = useState(uuidv4());
-    const [searchSuggestions, setSearchSuggestions] = useState<Suggestion[]>([]);
-    const timeoutRef = useRef<NodeJS.Timeout>();
-    const [filterPage, setFilterPage] = useState(false);
-    const [activityFilter, setActivityFilter] = useState(false);
-    const [priceFilter, setPriceFilter] = useState(false);
-    const [languageFilter, setLanguageFilter] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
-    const { viewState } = useMapContext();
-    const [position, setPosition] = useState({ latitude: viewState.latitude, longitude: viewState.longitude });
-    const mapFunctions = useMap();
-    const [selectedActivities, setSelectedActivities] = useState<Set<string>>(new Set());
-
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setFilterPage(false);
-                setSearchSuggestions([]);
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    const debouncedSearch = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
-            
-            // Clear existing timeout
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-
-            // Set new timeout
-            timeoutRef.current = setTimeout(async () => {
-                if (!value) {
-                    setSearchSuggestions([]);
-                    return;
-                }
-
-                try {
-                    const data = await fetchSuggestions(
-                        value, 
-                        sessionToken, 
-                        position.latitude, 
-                        position.longitude
-                    );
-                    if (data?.suggestions) {
-                        setSearchSuggestions(data.suggestions.map((item: Suggestion) => ({
-                            mapbox_id: item.mapbox_id ?? uuidv4(),
-                            name: item.name,
-                            full_address: item.full_address,
-                            coordinates: item.coordinates,
-                        })));
-                    }
-                } catch (error) {
-                    console.error("Search error:", error);
-                    setSearchSuggestions([]);
-                }
-            }, 300);
+    return {
+        type: 'Container',
+        props: {
+            contexts: [
+                { contextName: 'inputMapMenuReRender', contextValue: {reRender: 0}},
+                { contextName: 'inputMapMenuData', contextValue: {latitude: 0, longitude: 0}}
+            ],
+            existValue: {
+                include: 0,
+                reRender: 0,
+            },
+            className: 'absolute left-0 top-0 right-0 m-auto mt-2 w-[400px] h-fit p-1 flex flex-col rounded-[24px] pointer-events-auto bg-white shadow-[0px_0px_4px_1px_#00000060]',
         },
-        [sessionToken, position]
-    );
-
-    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-        if (e.target.value) {
-            debouncedSearch(e as unknown as React.ChangeEvent<HTMLInputElement>);
-        }
-    };
-
-    const handleSuggestionClick = async (suggestion: Suggestion) => {
-        try {
-            console.log('Mapbox Suggestion Response:', suggestion);
-            // Fetch the detailed feature data
-            const url = new URL(`https://api.mapbox.com/search/searchbox/v1/retrieve/${suggestion.mapbox_id}`);
-            url.searchParams.append("session_token", sessionToken);
-            url.searchParams.append("access_token", process.env.NEXT_PUBLIC_MAPBOX_API_KEY ?? "");
-            
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            if (data.features?.[0]?.geometry?.coordinates) {
-                const [longitude, latitude] = data.features[0].geometry.coordinates;
-                setPosition({ latitude, longitude });
-                mapFunctions?.current?.flyTo({
-                    center: [longitude, latitude],
-                    zoom: 4
-                });
+        children: [
+            {
+                type: 'Container',
+                props: {
+                    className: 'w-full h-10 p-1 flex flex-row rounded-full items-center bg-[#eeeeee]',
+                },
+                children: [
+                    {
+                        type: 'SearchIcon',
+                        props: {
+                            className: 'w-[28px] h-[28px] fill-[#888888]',
+                        },
+                    },
+                    {
+                        type: 'Input',
+                        props: {
+                            context: 'ViewState',
+                            placeholder: 'Localisation',
+                            fetchUrl: '/api/adressAutoComplete',
+                            className: 'w-full h-full text-xl bg-transparent outline-none',
+                            type: 'search',
+                        },
+                    },
+                ]
+            },
+            {
+                type: 'Container',
+                props: {
+                    className: 'w-full h-fit overflow-hidden rounded-b-[24px]',
+                },
+                children: [
+                    {
+                        type: 'SduiCall',
+                        props: { macroComponentName: 'AdressAutocomplete' }
+                    }
+                ]
             }
-        } catch (error) {
-            console.error("Error fetching location details:", error);
-        }
-    };
-
+        ],
+    }
+}/*
     return (
         <Container 
             ref={menuRef}
@@ -249,7 +171,7 @@ export default function MapMenu() {
                                     <Button 
                                         className={`w-[160px] h-[100px] flex flex-col items-center justify-center rounded-xl ${
                                             selectedActivities.has('boatTrip') 
-                                                ? 'bg-white text-black [&>svg]:fill-black'
+                                                ? 'bg-white text-black [&>svg]:fill-black' 
                                                 : 'bg-black text-white [&>svg]:fill-white'
                                         } shadow-[0px_0px_4px_1px_#00000060]`}
                                         onClick={() => {
@@ -303,4 +225,4 @@ export default function MapMenu() {
             )}
         </Container>
     );
-}
+}*/

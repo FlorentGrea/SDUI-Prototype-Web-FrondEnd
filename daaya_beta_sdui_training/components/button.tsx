@@ -1,52 +1,31 @@
 'use client'
 
-import { useMapContext } from "./map/map";
+import { useContainerContext, ContextContainerObjectType, ContextContainerType } from "./Container/contextsGestion";
+
+function defineClickBehaviour(clickBehaviour: string, onClickContext: ContextContainerType | null, newContextValue: ContextContainerObjectType) {
+    if (clickBehaviour === 'change_context') {
+        return () => onClickContext?.setValue((prev: ContextContainerObjectType | null) => ({...prev, ...newContextValue}));
+    }
+    return () => {};
+}
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: string;
     dataId?: number;
+    clickBehaviour?: string;
+    clickContext?: string;
+    newContextValue?: ContextContainerObjectType;
 };
 
-function MapMarkerClickedButton({ children, dataId, ...props }: ButtonProps) {
-    const { selectedId, setSelectedId } = useMapContext();
-    
-    return (
-        <button {...props} className={`${props.className || ''} ${selectedId === dataId ? 'bg-black [&>svg]:fill-white' : 'bg-white [&>svg]:fill-black'}`} onClick={() => setSelectedId(dataId || 0)}>
-            {children}
-        </button>
-    )
-}
+export default function Button({children, clickBehaviour, clickContext, newContextValue, ...props}: ButtonProps) {
+    const onClickContext = useContainerContext(clickContext || 'default');
 
-function MapPopupCloseButton({ children, ...props }: ButtonProps) {
-    const { setSelectedId } = useMapContext();
+    let onClickBehaviour = () => {};
+    if (clickBehaviour && clickContext && newContextValue) 
+        onClickBehaviour = defineClickBehaviour(clickBehaviour, onClickContext, newContextValue);
 
     return (
-        <button {...props} className={`${props.className || ''}`} onClick={() => setSelectedId(0)}>
-            {children}
-        </button>
-    )
-}
-
-export default function Button({ children, variant, dataId, ...props }: ButtonProps) {
-    
-    if (variant === 'map_marker_clicked') {
-        return (
-            <MapMarkerClickedButton {...props} dataId={dataId}>
-                {children}
-            </MapMarkerClickedButton>
-        )
-    }
-
-    if (variant === 'map_popup_close') {
-        return (
-            <MapPopupCloseButton {...props}>
-                {children}
-            </MapPopupCloseButton>
-        )
-    }
-
-    return (
-        <button {...props} className={`${props.className || ''}`}>
+        <button {...props} onClick={onClickBehaviour}>
             {children}
         </button>
     )

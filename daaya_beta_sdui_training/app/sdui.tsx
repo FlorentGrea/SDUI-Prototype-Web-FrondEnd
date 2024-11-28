@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { ListIcon } from "@/components/icons";
-import Map from "@/components/map/map";
+import Map from "@/components/map";
 import { MapIcon } from "@/components/icons";
 import Button from "@/components/button";
-import Container from "@/components/container";
+import Container from "@/components/Legacy/container";
 import { ChatIcon } from "@/components/icons";
 import { MapPoint } from "@/types/map";
-import MapPopup from "@/components/map/mapPopup";
-import MapMarker from "@/components/map/mapMarker";
+import MapPopup from "@/components/mapPopup";
+import MapMarker from "@/components/mapMarker";
 import Image from 'next/image';
 import * as Icons from "@/components/icons";
 import MapMenu from '@/components/map/mapMenu/mapMenu';

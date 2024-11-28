@@ -1,5 +1,5 @@
 export default function mainPage() {
-    const render = {
+    return {
         type: 'Container',
         props: {
             contexts: [
@@ -16,6 +16,4 @@ export default function mainPage() {
             {type: 'SduiCall', props: { macroComponentName: 'MainMenu' }},
         ],
     }
-
-    return render
 }

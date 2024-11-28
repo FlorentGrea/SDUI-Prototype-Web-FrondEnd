@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         
         console.log('body', body);
         if (body.macroComponentName && body.macroComponentName in componentRegistry) {
-            const render = componentRegistry[body.macroComponentName as keyof typeof componentRegistry]();
+            const render = await componentRegistry[body.macroComponentName as keyof typeof componentRegistry]();
             console.log('render', render);
             return NextResponse.json({ message: 'Success', render });
         }
