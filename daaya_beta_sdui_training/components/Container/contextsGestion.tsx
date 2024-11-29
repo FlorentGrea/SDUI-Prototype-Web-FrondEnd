@@ -1,26 +1,44 @@
+/**
+ * Context Management System
+ * 
+ * This module provides a flexible context management system for the SDUI framework.
+ * It allows for:
+ * 1. Dynamic creation and management of contexts
+ * 2. Type-safe context values and setters
+ * 3. Centralized context registry
+ * 4. Easy context access through hooks
+ */
+
 'use client'
 
 import React, { createContext, useContext, useState } from 'react';
 
-// Define the context value type
+// Define the shape of values that can be stored in contexts
 export type ContextContainerObjectType = {
-    [key: string]: string | number; // Allow only strings or numbers as values
+    [key: string]: string | number; // Only allow string or number values for type safety
 };
 
+// Define the shape of the context itself, including value and setter
 export type ContextContainerType = {
-    value: ContextContainerObjectType | null; // Change to the specific object type or null
-    setValue: React.Dispatch<React.SetStateAction<ContextContainerObjectType | null>>; // Update setValue type
+    value: ContextContainerObjectType | null;
+    setValue: React.Dispatch<React.SetStateAction<ContextContainerObjectType | null>>;
 };
 
-// Create a default context
-const defaultContext = createContext<ContextContainerType | null>({ value: null, setValue: () => {} });
+// Create a default context with null value and empty setter
+const defaultContext = createContext<ContextContainerType | null>({ 
+    value: null, 
+    setValue: () => {} 
+});
 
-// Mapping of context names to context objects, including the default context
+// Registry of all contexts, initialized with default context
 const contextMap: { [key: string]: React.Context<ContextContainerType | null> } = {
-    default: defaultContext, // Add the default context
+    default: defaultContext,
 };
 
-// Function to use a context from the contextMap
+/**
+ * Hook to access context values
+ * Throws helpful errors if context doesn't exist or is used outside provider
+ */
 export function useContainerContext(contextName: string) {
     const context = contextMap[contextName];
 
@@ -37,7 +55,10 @@ export function useContainerContext(contextName: string) {
     return value;
 }
 
-// Move NewProvider outside of addContexts
+/**
+ * Provider component that manages state for a context
+ * Handles initialization and state updates for a specific context
+ */
 function NewProvider({ children, initialValue, contextName }: { 
     children: React.ReactNode; 
     initialValue: ContextContainerObjectType | null; 
@@ -52,18 +73,21 @@ function NewProvider({ children, initialValue, contextName }: {
     );
 }
 
-// Update the addContexts function
+/**
+ * Creates new contexts and returns their providers
+ * Used by Container component to set up context hierarchy
+ */
 export function addContexts(contexts: { contextName: string; contextValue?: ContextContainerObjectType }[]) {
+    // Create contexts if they don't exist
     contexts.forEach(({ contextName }) => {
         if (contextMap[contextName]) {
             return
         }
-
         const newContext = createContext<ContextContainerType | null>(null);
-        
         contextMap[contextName] = newContext;
     });
 
+    // Return array of provider components
     return contexts.map(({ contextName, contextValue = null }) => ({
         name: contextName,
         provider: (props: { children: React.ReactNode }) => (

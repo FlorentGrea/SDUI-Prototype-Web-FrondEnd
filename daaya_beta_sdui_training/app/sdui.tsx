@@ -2,18 +2,18 @@
 
 import React from 'react';
 import { ListIcon } from "@/components/icons";
-import Map from "@/components/map";
+import Map from "@/components/mapTools/map";
 import { MapIcon } from "@/components/icons";
-import Button from "@/components/button";
+import Button from "@/components/button/button";
 import Container from "@/components/Legacy/container";
 import { ChatIcon } from "@/components/icons";
 import { MapPoint } from "@/types/map";
-import MapPopup from "@/components/mapPopup";
-import MapMarker from "@/components/mapMarker";
+import MapPopup from "@/components/mapTools/mapPopup";
+import MapMarker from "@/components/mapTools/mapMarker";
 import Image from 'next/image';
 import * as Icons from "@/components/icons";
-import MapMenu from '@/components/map/mapMenu/mapMenu';
-import PositionButton from '@/components/map/positionButton';
+import MapMenu from '@/components/Legacy/map/mapMenu/mapMenu';
+import PositionButton from '@/components/Legacy/map/positionButton';
 //import App from '@/components/test/App'
 
 const IconComponents = Icons;

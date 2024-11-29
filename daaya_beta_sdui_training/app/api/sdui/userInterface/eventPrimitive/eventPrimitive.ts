@@ -8,6 +8,7 @@ export default function eventPrimitive() {
                     latitude: 46.2276,
                     longitude: 2.2137,
                     zoom: 4,
+                    reRender: 1,
                 }},
                 {contextName: 'SelectedId', contextValue: {id: 0}},
             ],

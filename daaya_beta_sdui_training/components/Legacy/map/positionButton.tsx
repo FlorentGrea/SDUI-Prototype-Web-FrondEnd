@@ -1,6 +1,6 @@
 import { useMap } from "react-map-gl";
-import Button from "../button";
-import * as Icons from "../icons";
+import Button from "../../button/button";
+import * as Icons from "../../icons/icons";
 
 export default function PositionButton() {
     const mapFunctions = useMap();

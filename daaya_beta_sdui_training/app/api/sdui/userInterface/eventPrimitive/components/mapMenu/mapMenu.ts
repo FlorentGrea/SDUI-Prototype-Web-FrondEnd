@@ -3,14 +3,6 @@ export default function mapMenu() {
     return {
         type: 'Container',
         props: {
-            contexts: [
-                { contextName: 'inputMapMenuReRender', contextValue: {reRender: 0}},
-                { contextName: 'inputMapMenuData', contextValue: {latitude: 0, longitude: 0}}
-            ],
-            existValue: {
-                include: 0,
-                reRender: 0,
-            },
             className: 'absolute left-0 top-0 right-0 m-auto mt-2 w-[400px] h-fit p-1 flex flex-col rounded-[24px] pointer-events-auto bg-white shadow-[0px_0px_4px_1px_#00000060]',
         },
         children: [
@@ -46,7 +38,10 @@ export default function mapMenu() {
                 children: [
                     {
                         type: 'SduiCall',
-                        props: { macroComponentName: 'AdressAutocomplete' }
+                        props: { 
+                            macroComponentName: 'AdressAutoComplete', 
+                            context: 'ViewState' 
+                        }
                     }
                 ]
             }

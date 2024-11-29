@@ -1,8 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 import { NextResponse } from 'next/server';
 
+export interface MapboxSuggestion {
+    mapbox_id: string;
+    name: string;
+    full_address: string;
+    coordinates?: [number, number];
+}
+
+interface MapboxResponse {
+    suggestions: MapboxSuggestion[];
+}
+
+let adressAutoCompleteResponse: MapboxSuggestion[] = [];
+
+function setAdressAutoCompleteResponse(response: MapboxSuggestion[]) {
+    adressAutoCompleteResponse = response;
+};
+
+function getAdressAutoCompleteResponse() {
+    return adressAutoCompleteResponse;
+}; 
+
 async function fetchSuggestions(searchText: string, latitude: number, longitude: number) {
-    console.log('searchText', searchText, 'latitude', latitude, 'longitude', longitude);
     const url = new URL("https://api.mapbox.com/search/searchbox/v1/suggest");
     url.searchParams.append("q", searchText);
     url.searchParams.append("language", "fr");
@@ -15,11 +35,18 @@ async function fetchSuggestions(searchText: string, latitude: number, longitude:
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return response.json();
+    const data = await response.json() as MapboxResponse;
+    setAdressAutoCompleteResponse(data.suggestions);
+    return {status: 'success'};
+}
+
+export async function GET() {
+    const suggestions = getAdressAutoCompleteResponse();
+    return NextResponse.json(suggestions);
 }
 
 export async function POST(req: Request) {
     const body = await req.json();
-    const suggestions = await fetchSuggestions(body.inputValue, body.latitude, body.longitude);
-    return NextResponse.json({ suggestions });
+    const response = await fetchSuggestions(body.inputValue, body.latitude, body.longitude);
+    return NextResponse.json(response);
 }

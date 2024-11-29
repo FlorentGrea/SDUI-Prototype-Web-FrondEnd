@@ -3,7 +3,7 @@ import eventPrimitive from "./userInterface/eventPrimitive/eventPrimitive";
 import mapMarkers from "./userInterface/eventPrimitive/components/mapMarkers/mapMarkers";
 import mainPage from "./userInterface/mainPage";
 import mapMenu from "./userInterface/eventPrimitive/components/mapMenu/mapMenu";
-import adressAutocomplete from "./userInterface/eventPrimitive/components/mapMenu/adressAutocomplete/adressAutocomplete";
+import adressAutoComplete from "./userInterface/eventPrimitive/components/mapMenu/adressAutoComplete/adressAutoComplete";
 
 export const componentRegistry = {
     MainPage: mainPage,
@@ -11,5 +11,5 @@ export const componentRegistry = {
     EventPrimitive: eventPrimitive,
     MapMarkers: mapMarkers,
     MapMenu: mapMenu,
-    AdressAutocomplete: adressAutocomplete,
+    AdressAutoComplete: adressAutoComplete,
 }

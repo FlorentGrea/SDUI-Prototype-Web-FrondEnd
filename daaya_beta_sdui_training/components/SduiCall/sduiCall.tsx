@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { MicroComponents } from './ComponentRegistry';
+import { MicroComponents } from './componentRegistry';
+import { useContainerContext } from '../container/contextsGestion';
 
 // Add this interface at the top of the file
 interface ElementStructure {
@@ -53,21 +54,22 @@ function RenderStructure({ structure }: RenderStructureProps) {
 
 interface SduiCallProps {
     macroComponentName: string;
+    context?: string;
 }
 
-export default function SduiCall({ macroComponentName }: SduiCallProps) {
+export default function SduiCall({ macroComponentName, context }: SduiCallProps) {
+    const renderContext = useContainerContext(context || 'default');
+
     const [structure, setStructure] = useState(null);
 
     useEffect(() => {
-        const fetchStructure = async () => {
-            console.log('macroComponentName fetched', macroComponentName);
+        async function fetchStructure() {
             const fetchedStructure = await getStructure(macroComponentName);
-            console.log('fetchedStructure', fetchedStructure);
             setStructure(fetchedStructure.render);
         };
 
         fetchStructure();
-    }, [macroComponentName]);
+    }, [macroComponentName, renderContext?.value?.reRender]);
 
     // Render only when structure is available
     if (!structure) {
