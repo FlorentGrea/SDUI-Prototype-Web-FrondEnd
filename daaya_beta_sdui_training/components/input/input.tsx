@@ -63,7 +63,7 @@ export default function Input({context, fetchUrl, ...props}: InputProps) {
                 } catch (error) {
                     console.error('Error fetching input:', error);
                 }
-            }, 100);
+            }, 200);
         
             setTimeoutId(id);
         }

@@ -73,7 +73,7 @@ export default function SduiCall({ macroComponentName, context }: SduiCallProps)
 
     // Render only when structure is available
     if (!structure) {
-        return <div>Loading...</div>; // Optional loading state
+        return <></>; // Optional loading state
     }
 
     return <RenderStructure structure={structure} />;

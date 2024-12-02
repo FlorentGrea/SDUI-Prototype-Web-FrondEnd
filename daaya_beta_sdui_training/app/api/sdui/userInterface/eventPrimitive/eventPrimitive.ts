@@ -11,6 +11,7 @@ export default function eventPrimitive() {
                     reRender: 1,
                 }},
                 {contextName: 'SelectedId', contextValue: {id: 0}},
+                {contextName: 'eventFilters', contextValue: {filterClicked: 0}},
             ],
             className: 'w-full h-screen',
         },

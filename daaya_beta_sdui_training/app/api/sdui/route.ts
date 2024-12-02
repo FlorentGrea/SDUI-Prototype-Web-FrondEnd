@@ -30,8 +30,10 @@ export async function POST(req: Request) {
         
         // Validate request and check if component exists
         if (body.macroComponentName && body.macroComponentName in componentRegistry) {
+            console.log('POST: macroComponentName', body.macroComponentName);
             // Get the component structure from registry and render it
             const render = await componentRegistry[body.macroComponentName as keyof typeof componentRegistry]();
+            console.log('render', render);
             return NextResponse.json({ message: 'Success', render });
         }
 
