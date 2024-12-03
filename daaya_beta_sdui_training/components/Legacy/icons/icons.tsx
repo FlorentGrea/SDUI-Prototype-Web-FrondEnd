@@ -80,8 +80,7 @@ export function ListIcon(props: React.SVGProps<SVGSVGElement>) {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
+        <path d="M18 6 L6 18 M6 6 L18 18" />
       </svg>
   )}
   

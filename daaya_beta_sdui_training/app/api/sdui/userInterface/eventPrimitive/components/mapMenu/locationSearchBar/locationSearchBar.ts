@@ -1,3 +1,5 @@
+import { getIcon } from '@/app/api/sdui/userInterface/components/icons/getIcon';
+
 export default function locationSearchBar() {
     return {
         type: 'Container',
@@ -11,12 +13,7 @@ export default function locationSearchBar() {
                     className: 'w-full h-10 p-1 flex flex-row rounded-full items-center bg-[#eeeeee]',
                 },
                 children: [
-                    {
-                        type: 'SearchIcon',
-                        props: {
-                            className: 'w-[28px] h-[28px] fill-[#888888]',
-                        },
-                    },
+                    getIcon('searchIcon', {className: 'w-[28px] h-[28px] fill-[#888888]'}),
                     {
                         type: 'Input',
                         props: {
@@ -36,14 +33,7 @@ export default function locationSearchBar() {
                     clickContext: 'eventFilters',
                     newContextValue: {filterClicked: 1},
                 },
-                children: [
-                    {
-                        type: 'FilterIcon',
-                        props: {
-                            className: 'w-[40px] h-[40px]',
-                        },
-                    }
-                ]
+                children: [getIcon('filterIcon', {className: 'w-[40px] h-[40px]'})]
             },
         ]
     }

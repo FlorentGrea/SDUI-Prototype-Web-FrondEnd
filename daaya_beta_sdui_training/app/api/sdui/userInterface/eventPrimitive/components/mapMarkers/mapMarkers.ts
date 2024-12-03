@@ -1,3 +1,4 @@
+import { getIcon } from '../../../components/icons/getIcon';
 import { MapPoint } from '@/types/map';
 import PocketBase from 'pocketbase';
 
@@ -39,7 +40,7 @@ export default async function eventPrimitive() {
                             newContextValue: {id: point.id},
                             className: `w-[40px] h-[28px] flex items-center justify-center shadow-[0px_0px_4px_1px_#00000060] rounded-full bg-white [&>svg]:fill-black`
                         },
-                        children: [{type: point.type, props: {className: 'w-[20px] h-[20px]'}}]
+                        children: [getIcon(point.type, {className: 'w-[20px] h-[20px]'})]
                     },
                 ]
             },
@@ -61,7 +62,7 @@ export default async function eventPrimitive() {
                             newContextValue: {id: 0},
                             className: `w-[40px] h-[28px] flex items-center justify-center shadow-[0px_0px_4px_1px_#00000060] rounded-full bg-black [&>svg]:fill-white`
                         },
-                        children: [{type: point.type, props: {className: 'w-[20px] h-[20px]'}}]
+                        children: [getIcon(point.type, {className: 'w-[20px] h-[20px]'})]
                     },
                 ]
             },
@@ -95,7 +96,7 @@ export default async function eventPrimitive() {
                                             newContextValue: {id: 0},
                                             className: 'absolute top-2 left-2 flex items-center justify-center border-none rounded-full bg-[#00000040] w-[28px] h-[28px] focus:outline-none'
                                         },
-                                        children: [{type: 'XIcon', props: {className: 'w-[20px] h-[20px] invert'}}]
+                                        children: [getIcon('xIcon', {className: 'w-[20px] h-[20px] invert'})]
                                     },
                                     {
                                         type: 'Text',
@@ -104,12 +105,12 @@ export default async function eventPrimitive() {
                                     {
                                         type: 'Container',
                                         props: {className: 'flex flex-row col-span-4 row-start-3 col-start-4 p-1 items-center'},
-                                        children: [{type: 'LocationIcon', props: {className: 'w-[20px] h-[20px]'}}, {type: 'Text', props: {text: point.location, className: 'font-bold text-base w-full truncate'}}]
+                                        children: [getIcon('locationIcon', {className: 'w-[20px] h-[20px] invert'}), {type: 'Text', props: {text: point.location, className: 'font-bold text-base w-full truncate'}}]
                                     },
                                     {
                                         type: 'Container',
                                         props: {className: 'flex flex-row col-span-4 row-span-4 col-start-4 p-1 items-center'},
-                                        children: [{type: 'CalendarIcon', props: {className: 'w-[20px] h-[20px]'}}, {type: 'Text', props: {text: new Date(point.date).toDateString(), className: 'font-bold text-base w-full truncate'}},]
+                                        children: [getIcon('calendarIcon', {className: 'w-[20px] h-[20px]'}), {type: 'Text', props: {text: new Date(point.date).toDateString(), className: 'font-bold text-base w-full truncate'}},]
                                     },
                                     {
                                         type: 'Container',
@@ -124,22 +125,11 @@ export default async function eventPrimitive() {
                                                         props: {className: 'flex flex-row items-center justify-center gap-1'}, 
                                                         children: [
                                                             {type: 'Text', props: {text: '3/4', className: 'font-bold text-base h-[20px]'}}, 
-                                                            {type: 'TwoPeopleIcon', props: {className: 'w-[20px] h-[20px] invert'}}
+                                                            getIcon('twoPeopleIcon', {className: 'w-[20px] h-[20px] invert'})
                                                         ]
                                                     }, 
                                                     {type: 'Text', props: {text: '1000€', className: 'font-bold truncate w-fit'}}
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                ]
-            },
-        ]
-    }))
+    ]}]}]}]}]}]}))
 
     return {
         type: 'Container',

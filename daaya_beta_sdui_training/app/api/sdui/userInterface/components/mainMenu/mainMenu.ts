@@ -1,4 +1,5 @@
 import { buttonListContainer, icons, mainContainer } from "./styles"
+import { getIcon } from "../icons/getIcon"
 
 export default function mainMenu() {
     const render = {
@@ -9,9 +10,9 @@ export default function mainMenu() {
                 type: 'Container',
                 props: {className: buttonListContainer},
                 children: [
-                    {type: 'ListIcon', props: {className: icons}},
-                    {type: 'MapIcon', props: {className: icons}},
-                    {type: 'ChatIcon', props: {className: icons}},
+                    getIcon('listIcon', {className: icons}),
+                    getIcon('mapIcon', {className: icons}),
+                    getIcon('chatIcon', {className: icons}),
                 ],
             },
         ],

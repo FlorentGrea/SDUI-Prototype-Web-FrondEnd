@@ -1,108 +1,49 @@
-/**
- * Enhanced Button Component
- * 
- * A flexible button component that extends HTML button functionality with:
- * 1. Context-aware click behaviors
- * 2. Mapbox location integration
- * 3. Dynamic state management
- * 4. Custom event handling
- */
-
 'use client'
 
-import { useMap } from "react-map-gl";
-import { useContainerContext, ContextContainerObjectType, ContextContainerType } from "../container/contextsGestion";
-import { v4 as uuidv4 } from 'uuid';
-
-// Type definition for Mapbox location suggestions
-export interface MapboxSuggestion {
-    mapbox_id: string;
-    name: string;
-    full_address: string;
-    coordinates?: [number, number];
-}
-
 /**
- * Defines different click behaviors for the button
- * Returns a function that will be called on button click
+ * Button Component with Dynamic Click Behaviors
+ * 
+ * This component extends the standard HTML button with additional functionality for
+ * managing context and handling different click behaviors. It's designed to be flexible
+ * and reusable across the application, supporting various actions like:
+ * - Updating context values
+ * - Handling Mapbox location interactions
+ * - Making POST requests to specified URLs
+ * 
+ * The behavior is determined by the clickBehaviour prop and executed through
+ * separate handler functions for better code organization.
  */
-function DefineClickBehaviour(
-    clickBehaviour: string, 
-    onClickContext: ContextContainerType | null, 
-    newContextValue: ContextContainerObjectType
-): () => void | Promise<void> {
-    const mapFunctions = useMap();
 
-    // Simple context update behavior
-    if (clickBehaviour === 'change_context') {
-        return () => onClickContext?.setValue((prev: ContextContainerObjectType | null) => ({
-            ...prev, 
-            ...newContextValue
-        }));
-    }
+import { useContainerContext, ContextContainerObjectType } from "../container/contextsGestion";
+import { DefineClickBehaviour } from "./clickBehaviors/clickBehaviours";
 
-    // Complex Mapbox location handling behavior
-    if (clickBehaviour === 'mapbox_suggestion_click') {
-        return async () => {
-            try {
-                // Fetch detailed location data from Mapbox API
-                const url = new URL(`https://api.mapbox.com/search/searchbox/v1/retrieve/${newContextValue.mapbox_id}`);
-                url.searchParams.append("session_token", uuidv4());
-                url.searchParams.append("access_token", process.env.NEXT_PUBLIC_MAPBOX_API_KEY ?? "");
-                
-                const response = await fetch(url);
-                const data = await response.json();
-
-                // Update map view if coordinates are available
-                if (data.features?.[0]?.geometry?.coordinates) {
-                    const [longitude, latitude] = data.features[0].geometry.coordinates;
-                    onClickContext?.setValue((prev: ContextContainerObjectType | null) => ({
-                        ...prev, 
-                        latitude, 
-                        longitude
-                    }));
-                    // Animate map to new location
-                    mapFunctions?.current?.flyTo({
-                        center: [longitude, latitude],
-                        zoom: 10
-                    });
-                }
-            } catch (error) {
-                console.error("Error fetching location details:", error);
-            }
-        };
-    }
-
-    return () => {};  // Default no-op function
-}
-
-// Props type definition extending HTML button props
+// Extends standard button props with custom properties for behavior management
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    variant?: string;
-    dataId?: number;
-    clickBehaviour?: string;
-    clickContext?: string;
-    newContextValue?: ContextContainerObjectType;
+    clickBehaviour?: string      // Determines which click behavior to use
+    clickContext?: string        // Specifies which context to modify
+    newContextValue?: ContextContainerObjectType  // New values to update in context
+    urlName?: string            // URL for POST requests when needed
 };
 
-/**
- * Button component with enhanced functionality
- * Handles both simple and complex click behaviors
- */
 export default function Button({
-    children, 
     clickBehaviour, 
     clickContext, 
     newContextValue, 
+    urlName,
+    children,
     ...props
 }: ButtonProps) {
-    const onClickContext = useContainerContext(clickContext || 'default');
+    // Get the context instance based on provided name or fallback to 'default'
+    const onClickContext = useContainerContext(clickContext || 'default')
+    
+    // Initialize click handler with no-op function
+    let onClickBehaviour = () => {}
 
-    // Set up click behavior based on props
-    let onClickBehaviour = () => {};
+    // Set up the click behavior if all required props are provided
     if (clickBehaviour && clickContext && newContextValue) 
-        onClickBehaviour = DefineClickBehaviour(clickBehaviour, onClickContext, newContextValue);
+        onClickBehaviour = DefineClickBehaviour(clickBehaviour, onClickContext, newContextValue, urlName)
 
+    // Render button with all standard HTML button props plus our custom click handler
     return (
         <button {...props} onClick={onClickBehaviour}>
             {children}

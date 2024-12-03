@@ -1,3 +1,4 @@
+import { getIcon } from '@/app/api/sdui/userInterface/components/icons/getIcon';
 import type { MapboxSuggestion } from '@/app/api/adressAutoComplete/route';
 
 async function fetchSuggestions(): Promise<MapboxSuggestion[]> {
@@ -31,7 +32,7 @@ export default async function adressAutoComplete() {
                     className: "flex items-center gap-1 p-1 mt-1 w-full hover:bg-[#eeeeee] cursor-pointer",
                 },
                 children: [
-                    {type: 'LocationIcon', props: {className: 'w-5 h-5 flex-shrink-0'}},
+                    getIcon('locationIcon', {className: 'w-5 h-5 flex-shrink-0'}),
                     {
                         type: 'Container', 
                         props: {className: 'flex flex-col w-full min-w-0'},

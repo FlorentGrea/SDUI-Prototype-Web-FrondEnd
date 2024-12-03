@@ -1,3 +1,4 @@
+import { getIcon } from '@/app/api/sdui/userInterface/components/icons/getIcon';
 import { MapPoint } from '@/types/map';
 import PocketBase from 'pocketbase';
 
@@ -48,7 +49,7 @@ export default async function eventsTypeFilter() {
                                 className: 'aspect-square w-full border-4 border-black rounded-lg font-bold flex flex-col items-center justify-center',
                             },
                             children: [
-                                {type: type, props: {className: 'w-[28px] h-[28px]'}},
+                                getIcon(type, {className: 'w-[28px] h-[28px]'}),
                                 {type: 'Text', props: {text: typesName[type as keyof typeof typesName], className: 'text-center'}},
                 ]}]},
                 {
@@ -71,7 +72,7 @@ export default async function eventsTypeFilter() {
                                 className: 'aspect-square w-full bg-black text-white rounded-lg font-bold flex flex-col items-center justify-center',
                             },
                             children: [
-                                {type: type, props: {className: 'w-[28px] h-[28px] fill-white'}},
+                                getIcon(type, {className: 'w-[28px] h-[28px] fill-white'}),
                                 {type: 'Text', props: {text: typesName[type as keyof typeof typesName], className: 'text-center'}},
     ]}]}]}));
 
@@ -101,8 +102,8 @@ export default async function eventsTypeFilter() {
                             className: 'w-full h-fit flex flex-row justify-between',
                         },
                         children: [
-                            {type: 'Text', props: {text: 'Types d\'activités', className: 'text-lg font-bold h-[20px] flex items-center'}},
-                            {type: 'DownArrowIcon', props: {className: 'w-[20px] h-[20px]'}}
+                            {type: 'Text', props: {text: 'Types d\'activités', className: 'text-xl font-bold h-[28px] flex items-center'}},
+                            getIcon('downArrowIcon', {className: 'w-[28px] h-[28px]'})
             ]}]},
             {
                 type: 'Container',
@@ -122,8 +123,8 @@ export default async function eventsTypeFilter() {
                             className: 'w-full h-fit flex flex-row justify-between',
                         },
                         children: [
-                            {type: 'Text', props: {text: 'Types d\'activités', className: 'text-lg font-bold h-[20px] flex items-center'}},
-                            {type: 'UpArrowIcon', props: {className: 'w-[20px] h-[20px]'}}
+                            {type: 'Text', props: {text: 'Types d\'activités', className: 'text-xl font-bold h-[28px] flex items-center'}},
+                            getIcon('upArrowIcon', {className: 'w-[28px] h-[28px]'})
             ]}]},
             {
                 type: 'Container',

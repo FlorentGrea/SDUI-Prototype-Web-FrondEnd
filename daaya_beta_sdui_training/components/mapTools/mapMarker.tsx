@@ -10,14 +10,9 @@
 
 import { Marker, MarkerProps } from 'react-map-gl';
 
-/**
- * MapMarker component for displaying markers on the map
- * @param children - Content to display inside the marker (icons, images, etc.)
- * @param props - Standard MarkerProps from react-map-gl (longitude, latitude, etc.)
- */
 export default function MapMarker({ 
-    children, 
-    ...props 
+    children, // Content to display inside the marker (icons, images, etc.)
+    ...props // Standard MarkerProps from react-map-gl (longitude, latitude, etc.)
 }: { 
     children: React.ReactNode 
 } & MarkerProps) {
