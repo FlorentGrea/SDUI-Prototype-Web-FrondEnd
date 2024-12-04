@@ -13,10 +13,7 @@ export default function mainMenu() {
                     getIcon('listIcon', {className: icons}),
                     getIcon('mapIcon', {className: icons}),
                     getIcon('chatIcon', {className: icons}),
-                ],
-            },
-        ],
-    }
+    ]}]}
 
     return render
 }

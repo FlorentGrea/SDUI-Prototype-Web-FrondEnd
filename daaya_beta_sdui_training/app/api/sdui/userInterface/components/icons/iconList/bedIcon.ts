@@ -13,6 +13,4 @@ export default function bedIcon(additionalProps: SvgProps = {}) {
             id: "Flat",
             d: "M208,68H28V48A12,12,0,0,0,4,48V208a12,12,0,0,0,24,0V180H228v28a12,12,0,0,0,24,0V112A44.04978,44.04978,0,0,0,208,68ZM28,92H92v64H28Zm88,64V92h92a20.02292,20.02292,0,0,1,20,20v44Z",
             ...additionalProps, // Spread additional props
-        },
-    }
-} 
+}}}

@@ -8,7 +8,7 @@ function setFilteredMapPoints(response: MapPoint[]) {
     filteredMapPoints = response;
 };
 
-function getFilteredMapPoints() {
+export function getFilteredMapPoints() {
     return filteredMapPoints;
 }; 
 
@@ -24,7 +24,10 @@ async function fetchFilteredMapPoints(filters: Filters) {
     }
     filteredMapPoints = mapPoints.filter((point: MapPoint) => {
         return Object.keys(filters).every(key => {
-            return point[key as keyof MapPoint] === filters[key];
+            if (key === point.type && filters[key] === 1) {
+                return false;
+            }
+            return true;
         });
     });
     setFilteredMapPoints(filteredMapPoints);
@@ -32,12 +35,12 @@ async function fetchFilteredMapPoints(filters: Filters) {
 }
 
 export async function GET() {
-    const suggestions = getFilteredMapPoints();
-    return NextResponse.json(suggestions);
+    const filtered = getFilteredMapPoints();
+    return NextResponse.json(filtered);
 }
 
 export async function POST(req: Request) {
     const body = await req.json();
-    const response = await fetchFilteredMapPoints(body.filters);
+    const response = await fetchFilteredMapPoints(body);
     return NextResponse.json(response);
 }

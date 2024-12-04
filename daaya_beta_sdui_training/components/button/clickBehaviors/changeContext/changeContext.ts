@@ -9,8 +9,8 @@
 import { ContextContainerObjectType, ContextContainerType } from "@/components/container/contextsGestion";
 
 export function handleChangeContext(
-    onClickContext: ContextContainerType | null, // The context instance to be updated
-    newContextValue: ContextContainerObjectType // The new values to merge into the existing context
+    onClickContext: ContextContainerType | null = null, // The context instance to be updated
+    newContextValue: ContextContainerObjectType = {} // The new values to merge into the existing context
 ): () => void {
     // Return a function that updates the context
     return () => onClickContext?.setValue((prev: ContextContainerObjectType | null) => ({

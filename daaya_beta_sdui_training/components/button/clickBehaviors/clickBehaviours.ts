@@ -19,8 +19,8 @@ import { handlePostContext } from "./postContext/postContext";
 
 export function DefineClickBehaviour(
     clickBehaviour: string, // Identifier for the desired behavior
-    onClickContext: ContextContainerType | null, // Context instance to be modified
-    newContextValue: ContextContainerObjectType, // Values to be used in the behavior
+    onClickContext: ContextContainerType | null = null, // Context instance to be modified
+    newContextValue: ContextContainerObjectType = {}, // Values to be used in the behavior
     urlName?: string // Optional URL for POST requests
 ): () => void | Promise<void> {
     // Route to context change handler
@@ -35,7 +35,7 @@ export function DefineClickBehaviour(
 
     // Route to POST request handler
     if (clickBehaviour === 'post_context') {
-        return handlePostContext(urlName, newContextValue)
+        return handlePostContext(urlName, onClickContext, newContextValue)
     }
 
     // Default no-op function when no behavior matches

@@ -16,6 +16,4 @@ export default function xIcon(additionalProps: SvgProps = {}) {
             strokeLinejoin: "round",
             d: "M18 6 L6 18 M6 6 L18 18",
             ...additionalProps
-        },
-    }
-} 
+}}}

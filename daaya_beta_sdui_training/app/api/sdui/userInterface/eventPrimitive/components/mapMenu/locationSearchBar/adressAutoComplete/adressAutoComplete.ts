@@ -12,15 +12,13 @@ async function fetchSuggestions(): Promise<MapboxSuggestion[]> {
     } catch (error) {
         console.error('Error fetching suggestions:', error);
         return [];
-    }
-}
+}}
 
 export default async function adressAutoComplete() {
     const suggestions: MapboxSuggestion[] = await fetchSuggestions();
 
     const autocomplete = suggestions.map((suggestion, index) => {
-        return (
-            {
+        return ({
                 type: 'Button',
                 props: {
                     key: suggestion.mapbox_id || index,
@@ -36,15 +34,17 @@ export default async function adressAutoComplete() {
                     {
                         type: 'Container', 
                         props: {className: 'flex flex-col w-full min-w-0'},
-                        children: [
-                            {type: 'Text', props: {text: suggestion.name, className: 'w-full font-bold text-base truncate text-left'}},
-                            {type: 'Text', props: {text: suggestion.full_address, className: 'w-full text-sm text-gray-600 truncate text-left'}},
-                        ]
-                    },
-                ]
-            }
-        )
-    })
+                        children: [{
+                                type: 'Text', 
+                                props: {
+                                    text: suggestion.name, 
+                                    className: 'w-full font-bold text-base truncate text-left'
+                            }},{
+                                type: 'Text', 
+                                props: {
+                                    text: suggestion.full_address, 
+                                    className: 'w-full text-sm text-gray-600 truncate text-left'
+    }}]}]})})
         
     return {
             type: 'Container',
@@ -57,5 +57,4 @@ export default async function adressAutoComplete() {
                 className: 'w-full h-fit overflow-hidden rounded-b-[24px]',
             },
             children: autocomplete
-    }
-}
+}}

@@ -9,35 +9,35 @@ export default function eventPrimitive() {
                     longitude: 2.2137,
                     zoom: 4,
                     reRender: 1,
-                }},
-                {contextName: 'SelectedId', contextValue: {id: 0}},
-                {contextName: 'eventFilters', contextValue: {filterClicked: 0}},
-            ],
+                }},{
+                    contextName: 'SelectedId', 
+                    contextValue: {id: 0}
+                },{
+                    contextName: 'eventFilters', 
+                    contextValue: {
+                        activityType: 0,
+                        BedIcon: 0,
+                        BicycleIcon: 0,
+                        BoatIcon: 0,
+                        CarIcon: 0,
+                        MeetIcon: 0,
+                        PlaneIcon: 0,
+                        VanIcon: 0,
+                        filterClicked: 0,
+                        reRender: 1,
+                    }
+            }],
             className: 'w-full h-screen',
         },
-        children: [
-            {
+        children: [{
                 type: 'Map',
-                children: [
-                    {
+                children: [{
                         type: 'Container', 
-                        props: {
-                            contexts: [{contextName: 'loadMarkers', contextValue: {load: 1}}],
-                            className: 'w-full h-full',
-                        },
-                        children: [
-                            {
+                        props: {className: 'w-full h-full'},
+                        children: [{
                                 type: 'SduiCall', 
-                                props: { macroComponentName: 'MapMarkers' }
-                            },
-                            {
+                                props: { macroComponentName: 'MapMarkers', context: 'eventFilters' }
+                            },{
                                 type: 'SduiCall', 
                                 props: { macroComponentName: 'MapMenu' }
-                            }
-                        ]
-                    }
-                ],
-            },
-        ],
-    }
-}
+}]}]}]}}

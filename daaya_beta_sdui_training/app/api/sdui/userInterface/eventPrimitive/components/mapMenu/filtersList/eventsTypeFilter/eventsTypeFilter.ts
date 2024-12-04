@@ -21,54 +21,48 @@ export default async function eventsTypeFilter() {
         console.error("Error fetching map points:", error);
     }
 
-    const typeFilters = Array.from(uniqueTypes).map(type => (
-        {
+    const typeFilters = Array.from(uniqueTypes).map(type => ({
             type: 'Container',
-            props: {
-                contexts: [{'contextName': 'activityFilter', 'contextValue': {[type + 'Clicked']: 0}}],
-                className: 'w-full aspect-square',
-            },
-            children: [
-                {
+            props: {className: 'w-full aspect-square'},
+            children: [{
                     type: 'Container',
                     props: {
-                        contextTiedTo: 'activityFilter',
+                        contextTiedTo: 'eventFilters',
                         existValue: {
                             include: 0,
-                            [type + 'Clicked']: 1,
+                            [type]: 1,
                         },
                         className: 'w-full aspect-square',
                     },
-                    children: [
-                        {
+                    children: [{
                             type: 'Button',
                             props: {
                                 clickBehaviour: 'change_context',
-                                clickContext: 'activityFilter',
-                                newContextValue: {[type + 'Clicked']: 0},
+                                clickContext: 'eventFilters',
+                                newContextValue: {[type]: 0},
                                 className: 'aspect-square w-full border-4 border-black rounded-lg font-bold flex flex-col items-center justify-center',
                             },
                             children: [
                                 getIcon(type, {className: 'w-[28px] h-[28px]'}),
-                                {type: 'Text', props: {text: typesName[type as keyof typeof typesName], className: 'text-center'}},
-                ]}]},
-                {
+                                {
+                                    type: 'Text', 
+                                    props: {text: typesName[type as keyof typeof typesName], className: 'text-center'}
+                }]}]},{
                     type: 'Container',
                     props: {
-                        contextTiedTo: 'activityFilter',
+                        contextTiedTo: 'eventFilters',
                         existValue: {
                             include: 0,
-                            [type + 'Clicked']: 0,
+                            [type]: 0,
                         },
                         className: 'w-full aspect-square',
                     },
-                    children: [
-                        {
+                    children: [{
                             type: 'Button',
                             props: {
                                 clickBehaviour: 'change_context',
-                                clickContext: 'activityFilter',
-                                newContextValue: {[type + 'Clicked']: 1},
+                                clickContext: 'eventFilters',
+                                newContextValue: {[type]: 1},
                                 className: 'aspect-square w-full bg-black text-white rounded-lg font-bold flex flex-col items-center justify-center',
                             },
                             children: [
@@ -78,61 +72,55 @@ export default async function eventsTypeFilter() {
 
     return {
         type: 'Container',
-        props: {
-            contexts: [{'contextName': 'activityFilter', 'contextValue': {clicked: 0}}],
-            className: 'w-full h-fit p-2 gap-2 flex flex-col justify-center',
-        },
-        children: [
-            {type: 'Container', props: {className: 'w-full h-[1px] bg-[#00000020]'}},
-            {
+        props: {className: 'w-full h-fit p-2 gap-2 flex flex-col justify-center'},
+        children: [{
+                type: 'Container', 
+                props: {className: 'w-full h-[1px] bg-[#00000020]'}
+            },{
                 type: 'Container',
                 props: {
-                    contextTiedTo: 'activityFilter',
+                    contextTiedTo: 'eventFilters',
                     existValue: {
                         include: 0,
-                        clicked: 0,
+                        activityType: 0,
                 }},
-                children: [
-                    {
+                children: [{
                         type: 'Button',
                         props: {
                             clickBehaviour: 'change_context',
-                            clickContext: 'activityFilter',
-                            newContextValue: {clicked: 1},
+                            clickContext: 'eventFilters',
+                            newContextValue: {activityType: 1},
                             className: 'w-full h-fit flex flex-row justify-between',
                         },
                         children: [
                             {type: 'Text', props: {text: 'Types d\'activités', className: 'text-xl font-bold h-[28px] flex items-center'}},
                             getIcon('downArrowIcon', {className: 'w-[28px] h-[28px]'})
-            ]}]},
-            {
+            ]}]},{
                 type: 'Container',
                 props: {
-                    contextTiedTo: 'activityFilter',
+                    contextTiedTo: 'eventFilters',
                     existValue: {
                         include: 0,
-                        clicked: 1,
+                        activityType: 1,
                 }},
-                children: [
-                    {
+                children: [{
                         type: 'Button',
                         props: {
                             clickBehaviour: 'change_context',
-                            clickContext: 'activityFilter',
-                            newContextValue: {clicked: 0},
+                            clickContext: 'eventFilters',
+                            newContextValue: {activityType: 0},
                             className: 'w-full h-fit flex flex-row justify-between',
                         },
                         children: [
                             {type: 'Text', props: {text: 'Types d\'activités', className: 'text-xl font-bold h-[28px] flex items-center'}},
                             getIcon('upArrowIcon', {className: 'w-[28px] h-[28px]'})
-            ]}]},
-            {
+            ]}]},{
                 type: 'Container',
                 props: {
-                    contextTiedTo: 'activityFilter',
+                    contextTiedTo: 'eventFilters',
                     existValue: {
                         include: 0,
-                        clicked: 1,
+                        activityType: 1,
                     },
                     className: 'grid grid-cols-4 gap-2 justify-items-center'
                 },

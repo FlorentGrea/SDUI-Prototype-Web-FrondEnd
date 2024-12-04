@@ -7,11 +7,12 @@
  * based on client-side interactions.
  */
 
-import { ContextContainerObjectType } from "../../../container/contextsGestion";
+import { ContextContainerObjectType, ContextContainerType } from "../../../container/contextsGestion";
 
 export function handlePostContext(
     urlName: string | undefined, // URL for POST requests
-    newContextValue: ContextContainerObjectType // Values to be used in the behavior
+    onClickContext: ContextContainerType | null = null, // The context instance to be updated
+    newContextValue: ContextContainerObjectType = {} // Values to be used in the behavior
 ): () => void | Promise<void> {
     // Check if URL is provided; if not, log an error and return a no-op function
     if (!urlName) {
@@ -21,6 +22,11 @@ export function handlePostContext(
 
     // Return an asynchronous function to perform the POST request
     return async () => {
+        onClickContext?.setValue((prev) => ({
+            ...prev, // Spread the existing context values
+            ...newContextValue // Merge in the new context values
+        }));
+
         try {
             // Send POST request with context data as JSON
             const response = await fetch(urlName, {
@@ -28,17 +34,13 @@ export function handlePostContext(
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newContextValue),
+                body: JSON.stringify(onClickContext?.value),
             });
 
-            // Check if the response is successful (status code 200-299)
-            if (!response.ok) {
-                throw new Error(`Error posting context: ${response.statusText}`);
+            if (response.ok) {
+                onClickContext?.setValue(prev => ({...prev, reRender: Math.random() }));
             }
-
-            // Parse and log the response data if the request is successful
-            const data = await response.json();
-            console.log("Context posted successfully:", data);
+            console.log('reRender', onClickContext?.value?.reRender);
         } catch (error) {
             // Log any errors that occur during the request
             console.error("Error posting context:", error);
