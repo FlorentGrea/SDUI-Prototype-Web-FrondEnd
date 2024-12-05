@@ -19,7 +19,6 @@ export async function GET() {
 
 export async function POST(req: Request) {
     const body = await req.json();
-    console.log('body', body);
     const response = await fetchEventPicked(body.selectedId);
     return NextResponse.json(response);
 }

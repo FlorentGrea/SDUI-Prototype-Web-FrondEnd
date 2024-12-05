@@ -26,6 +26,12 @@ export default function eventPrimitive() {
                         filterClicked: 0,
                         reRender: 1,
                     }
+            },{
+                contextName: 'eventsCard',
+                contextValue: {
+                    mainButton: 1,
+                    selectedId: '',
+                }
             }],
             className: 'w-full h-screen',
         },

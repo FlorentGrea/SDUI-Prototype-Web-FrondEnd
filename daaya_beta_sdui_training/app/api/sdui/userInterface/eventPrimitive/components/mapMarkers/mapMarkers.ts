@@ -79,10 +79,28 @@ export default async function eventPrimitive() {
                 },
                 children: [{
                         type: 'Container',
-                        props: {className: 'w-[500px] h-[160px] p-2 flex flex-row'},
+                        props: {className: 'relative w-[500px] h-[160px] p-2 flex flex-row'},
                         children : [{
-                                type: 'Container',
-                                props: {className: 'relative w-full h-full grid grid-cols-9 grid-rows-4 rounded-xl overflow-hidden bg-white shadow-[0px_0px_4px_1px_#00000050]'},
+                            type: 'Button',
+                            props: {
+                                clickBehaviour: 'change_context',
+                                clickContext: 'SelectedId',
+                                newContextValue: {id: 0},
+                                className: 'absolute top-4 left-4 flex items-center justify-center border-none rounded-full bg-white w-[28px] h-[28px] focus:outline-none shadow-[0_0_10px_0_rgba(0,0,0,0.1)]'
+                            },
+                            children: [getIcon('xIcon', {className: 'w-[20px] h-[20px]'})]
+                        },{
+                                type: 'Button',
+                                props: {
+                                    clickBehaviour: 'post_context',
+                                    clickContext: 'eventsCard',
+                                    urlName: '/api/eventPicked',
+                                    newContextValue: {
+                                        selectedId: point.id,
+                                        mainButton: 0
+                                    },
+                                    className: 'w-full h-full grid grid-cols-9 grid-rows-4 text-start rounded-xl overflow-hidden bg-white shadow-[0px_0px_4px_1px_#00000050]'
+                                },
                                 children: [{
                                         type: 'Image', 
                                         props: {
@@ -91,16 +109,7 @@ export default async function eventPrimitive() {
                                             height: 1500, 
                                             alt: point.title, 
                                             className: 'object-cover w-full h-full col-span-3 row-span-4 col-start-1 row-start-1'
-                                    }}, {
-                                        type: 'Button',
-                                        props: {
-                                            clickBehaviour: 'change_context',
-                                            clickContext: 'SelectedId',
-                                            newContextValue: {id: 0},
-                                            className: 'absolute top-2 left-2 flex items-center justify-center border-none rounded-full bg-[#00000040] w-[28px] h-[28px] focus:outline-none'
-                                        },
-                                        children: [getIcon('xIcon', {className: 'w-[20px] h-[20px] invert'})]
-                                    }, {
+                                    }},  {
                                         type: 'Text',
                                         props: {text: point.title, className: 'col-span-6 row-span-2 p-1 text-lg font-bold line-clamp-2 flex items-center'}
                                     }, {
@@ -117,7 +126,7 @@ export default async function eventPrimitive() {
                                             {type: 'Text', props: {text: new Date(point.date).toDateString(), className: 'font-bold text-base w-full truncate'}}
                                     ]}, {
                                         type: 'Container',
-                                        props: {className: 'col-span-2 row-span-2 row-start-3 p-1'},
+                                        props: {className: 'col-span-2 row-span-2 row-start-3 h-full p-1'},
                                         children: [{
                                                 type: 'Container', 
                                                 props: {className: 'flex flex-col items-center justify-evenly w-full h-full rounded-xl text-base bg-black text-white'}, 

@@ -3,12 +3,7 @@ import { getIcon } from '../../../components/icons/getIcon';
 export default function EventsCard() {
     return {
         type: 'Container',
-        props: {
-            contexts: [{
-                contextName: 'eventsCard',
-                contextValue: {mainButton: 1, selectedId: ''}
-            }],
-            className: 'absolute bottom-[60px] right-[60px]'},
+        props: {className: 'z-10 absolute bottom-[60px] right-[60px]'},
         children: [
             {
                 type: 'Container',
@@ -47,12 +42,19 @@ export default function EventsCard() {
                         include: 0,
                         mainButton: 0,
                     },
-                    className: 'w-[650px] h-[calc(100vh-120px)] px-2 pb-2 pt-1 flex flex-col items-center justify-center bg-white rounded-[12px] shadow-[0px_0px_4px_1px_#00000020]'
+                    className: 'w-[650px] h-[calc(100vh-120px)] px-2 pb-2 pt-1 flex flex-col items-center bg-white rounded-[12px] shadow-[0px_0px_4px_1px_#00000020]'
                 },
                 children: [
                     {
                         type: 'Container',
-                        props: {className: 'w-full h-fit mb-1 flex items-center justify-center'},
+                        props: {
+                            contextTiedTo: 'eventsCard',
+                            existValue: {
+                                include: 0,
+                                selectedId: '',
+                            },
+                            className: 'w-full h-fit mb-1 flex items-center justify-center'
+                        },
                         children: [
                             {
                                 type: 'Container',
