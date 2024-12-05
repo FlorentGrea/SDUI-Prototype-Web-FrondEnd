@@ -91,7 +91,6 @@ export default async function eventList() {
             ]
         }
     ))
-console.log('evebts', events[0].props.newContextValue)
 
     return {
         type: 'Container',

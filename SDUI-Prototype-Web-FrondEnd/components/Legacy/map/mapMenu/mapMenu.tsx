@@ -109,7 +109,6 @@ export default function MapMenu() {
 
     const handleSuggestionClick = async (suggestion: Suggestion) => {
         try {
-            console.log('Mapbox Suggestion Response:', suggestion);
             // Fetch the detailed feature data
             const url = new URL(`https://api.mapbox.com/search/searchbox/v1/retrieve/${suggestion.mapbox_id}`);
             url.searchParams.append("session_token", sessionToken);
