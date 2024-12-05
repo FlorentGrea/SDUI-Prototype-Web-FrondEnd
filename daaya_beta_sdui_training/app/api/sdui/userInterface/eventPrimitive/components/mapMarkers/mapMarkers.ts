@@ -107,7 +107,7 @@ export default async function eventPrimitive() {
                                         type: 'Container',
                                         props: {className: 'flex flex-row col-span-4 row-start-3 col-start-4 p-1 items-center'},
                                         children: [
-                                            getIcon('locationIcon', {className: 'w-[20px] h-[20px] invert'}), 
+                                            getIcon('locationIcon', {className: 'w-[20px] h-[20px]'}), 
                                             {type: 'Text', props: {text: point.location, className: 'font-bold text-base w-full truncate'}}
                                     ]}, {
                                         type: 'Container',

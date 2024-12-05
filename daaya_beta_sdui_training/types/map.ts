@@ -1,6 +1,6 @@
 
 export interface MapPoint {
-    id: number;
+    id: string;
     longitude: number;
     latitude: number;
     type: string;

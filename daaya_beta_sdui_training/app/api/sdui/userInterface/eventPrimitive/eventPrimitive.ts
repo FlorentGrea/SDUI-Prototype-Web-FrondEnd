@@ -38,6 +38,9 @@ export default function eventPrimitive() {
                                 type: 'SduiCall', 
                                 props: { macroComponentName: 'MapMarkers', context: 'eventFilters' }
                             },{
-                                type: 'SduiCall', 
+                                type: 'SduiCall',
                                 props: { macroComponentName: 'MapMenu' }
+                            },{
+                                type: 'SduiCall',
+                                props: { macroComponentName: 'EventsCard' }
 }]}]}]}}

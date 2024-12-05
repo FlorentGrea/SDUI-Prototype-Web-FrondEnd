@@ -64,7 +64,6 @@ export default function SduiCall({ macroComponentName, context }: SduiCallProps)
 
     useEffect(() => {
         async function fetchStructure() {
-            console.log('sdui rerender', macroComponentName)
             const fetchedStructure = await getStructure(macroComponentName);
             setStructure(fetchedStructure.render);
         };

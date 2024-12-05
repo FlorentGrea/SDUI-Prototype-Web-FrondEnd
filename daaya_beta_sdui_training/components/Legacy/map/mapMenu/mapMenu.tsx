@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Container from "../../container";
 import Button from "../../../button/button";
 import * as Icons from "../../icons/icons";
-import { useMapContext } from '../../../mapTools/map';
+import useMapContext from "../../../mapTools/map";
 import { useMap } from "react-map-gl";
 import PriceFilter from "./priceFilter";
 import LanguageFilter from "./languageFilter";

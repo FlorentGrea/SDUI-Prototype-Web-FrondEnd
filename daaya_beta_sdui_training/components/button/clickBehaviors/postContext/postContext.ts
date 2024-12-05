@@ -22,27 +22,33 @@ export function handlePostContext(
 
     // Return an asynchronous function to perform the POST request
     return async () => {
-        onClickContext?.setValue((prev) => ({
-            ...prev, // Spread the existing context values
-            ...newContextValue // Merge in the new context values
-        }));
+        // Create a variable to store the updated value
+        let updatedValue;
 
+        await new Promise<void>((resolve) => {
+            onClickContext?.setValue((prev) => {
+                updatedValue = {  // Capture the new value
+                    ...prev,
+                    ...newContextValue
+                };
+                resolve();
+                return updatedValue;
+            });
+        });
+        
         try {
-            // Send POST request with context data as JSON
             const response = await fetch(urlName, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(onClickContext?.value),
+                body: JSON.stringify(updatedValue),  // Use the captured value
             });
 
             if (response.ok) {
                 onClickContext?.setValue(prev => ({...prev, reRender: Math.random() }));
             }
-            console.log('reRender', onClickContext?.value?.reRender);
         } catch (error) {
-            // Log any errors that occur during the request
             console.error("Error posting context:", error);
         }
     };
