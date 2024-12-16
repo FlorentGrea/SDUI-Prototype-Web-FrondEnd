@@ -75,7 +75,7 @@ export default function EventsCard() {
                                     getIcon('xIcon', {className: 'w-[28px] h-[28px]'})
                                 ]
                             }
-                    ]
+                        ]
                     },
                     {
                         type: 'Container',
